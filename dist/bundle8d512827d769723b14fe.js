@@ -2,177 +2,144 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/modules/todo.js":
-/*!*****************************!*\
-  !*** ./src/modules/todo.js ***!
-  \*****************************/
+/***/ "./src/edit.js":
+/*!*********************!*\
+  !*** ./src/edit.js ***!
+  \*********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ ToDo)
+/* harmony export */   "default": () => (/* binding */ change)
 /* harmony export */ });
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+/* harmony import */ var _index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index.js */ "./src/index.js");
+ //eslint-disable-line
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var ToDo = /*#__PURE__*/_createClass(function ToDo(index, description, completed) {
-  _classCallCheck(this, ToDo);
-
-  this.index = index;
-  this.description = description;
-  this.completed = completed;
-});
-
-
+function change() {
+  _index_js__WEBPACK_IMPORTED_MODULE_0__.taskSection.addEventListener('change', function (event) {
+    if (event.target.className === 'checkBoxClass') {
+      _index_js__WEBPACK_IMPORTED_MODULE_0__.todos[event.target.id].status = !_index_js__WEBPACK_IMPORTED_MODULE_0__.todos[event.target.id].status;
+      localStorage.setItem('task', JSON.stringify(_index_js__WEBPACK_IMPORTED_MODULE_0__.todos));
+      event.target.parentElement.classList.toggle('checked');
+    }
+  });
+}
 
 /***/ }),
 
-/***/ "./src/modules/todolist.js":
-/*!*********************************!*\
-  !*** ./src/modules/todolist.js ***!
-  \*********************************/
+/***/ "./src/index.js":
+/*!**********************!*\
+  !*** ./src/index.js ***!
+  \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ ToDoList)
+/* harmony export */   "taskSection": () => (/* binding */ taskSection),
+/* harmony export */   "todos": () => (/* binding */ todos)
 /* harmony export */ });
-/* harmony import */ var _todo_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./todo.js */ "./src/modules/todo.js");
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
+/* harmony import */ var _styles_style_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./styles/style.css */ "./src/styles/style.css");
+/* harmony import */ var _edit_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./edit.js */ "./src/edit.js");
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _classPrivateMethodInitSpec(obj, privateSet) { _checkPrivateRedeclaration(obj, privateSet); privateSet.add(obj); }
-
-function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
-
-function _classPrivateMethodGet(receiver, privateSet, fn) { if (!privateSet.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } return fn; }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
+ //eslint-disable-line
 
-var _addToDos = /*#__PURE__*/new WeakSet();
+var taskSection = document.querySelector('.tasks');
+var userTask = document.querySelector('.user-task');
+var clearAllCompleted = document.querySelector('.clearAll');
+var todos = JSON.parse(localStorage.getItem('task')) || []; //eslint-disable-line
 
-var _rearrangeToDos = /*#__PURE__*/new WeakSet();
+var MOOD = 'CREATE';
+var tmp;
 
-var _saveToDos = /*#__PURE__*/new WeakSet();
+var Task = /*#__PURE__*/_createClass(function Task(userTask) {
+  _classCallCheck(this, Task);
 
-var ToDoList = /*#__PURE__*/function () {
-  function ToDoList() {
-    _classCallCheck(this, ToDoList);
+  this.id = todos.length + 1;
+  this.task = userTask.value;
+  this.status = false;
+});
 
-    _classPrivateMethodInitSpec(this, _saveToDos);
+var displayTask = function displayTask(todos) {
+  taskSection.innerHTML = '';
 
-    _classPrivateMethodInitSpec(this, _rearrangeToDos);
+  for (var i = 0; i < todos.length; i += 1) {
+    taskSection.innerHTML += "\n  <div class=\"one-task\" id=".concat(i, ">\n    <div class=\"data\">\n      <input id=").concat(i, " class=\"checkBoxClass\" type=\"checkbox\" ").concat(todos[i].status ? 'checked' : '', ">\n      <p id=").concat(i, " class=\"").concat(todos[i].status ? 'checked' : '', " description\">").concat(todos[i].task, "</p>\n    </div>\n    <span class=\"span\">&cross;</span>\n  </div>\n  ");
+  }
+};
 
-    _classPrivateMethodInitSpec(this, _addToDos);
+var addTask = function addTask() {
+  if (MOOD === 'CREATE') {
+    var task = new Task(userTask);
+    todos.push(task);
+    localStorage.setItem('task', JSON.stringify(todos));
+    displayTask(todos);
+    userTask.value = '';
+  } else {
+    todos[tmp].task = userTask.value;
+    localStorage.setItem('task', JSON.stringify(todos));
+    displayTask(todos);
+    userTask.value = '';
+    MOOD = 'CREATE';
+    userTask.blur();
+  }
+};
 
-    this.toDos = [];
+userTask.addEventListener('keyup', function (e) {
+  if (e.keyCode === 13 && userTask.value !== '') {
+    e.preventDefault();
+    addTask();
+  }
+});
+displayTask(todos);
+
+var updateIndex = function updateIndex() {
+  for (var i = 0; i < todos.length; i += 1) {
+    todos[i].id = i + 1;
   }
 
-  _createClass(ToDoList, [{
-    key: "addToDo",
-    value: function addToDo(description) {
-      var index = this.toDos.length;
-      var toDo = new _todo_js__WEBPACK_IMPORTED_MODULE_0__["default"](index, description, false);
-      this.toDos.push(toDo);
-
-      _classPrivateMethodGet(this, _saveToDos, _saveToDos2).call(this);
-
-      this.renderToDos();
+  todos.sort(function (a, b) {
+    if (a.id < b.id) {
+      return -1;
     }
-  }, {
-    key: "getToDos",
-    value: function getToDos() {
-      return this.toDos;
+
+    if (a.id > b.id) {
+      return 1;
     }
-  }, {
-    key: "removeToDo",
-    value: function removeToDo(id) {
-      this.toDos = this.toDos.filter(function (toDo) {
-        return toDo.index !== id;
-      });
 
-      _classPrivateMethodGet(this, _rearrangeToDos, _rearrangeToDos2).call(this);
-
-      _classPrivateMethodGet(this, _saveToDos, _saveToDos2).call(this);
-
-      this.renderToDos();
-    }
-  }, {
-    key: "updateToDoCompleted",
-    value: function updateToDoCompleted(id) {
-      this.toDos.forEach(function (toDo) {
-        if (toDo.index === id) {
-          toDo.completed = !toDo.completed;
-        }
-      });
-
-      _classPrivateMethodGet(this, _saveToDos, _saveToDos2).call(this);
-
-      this.renderToDos();
-    }
-  }, {
-    key: "removeAllCompleted",
-    value: function removeAllCompleted() {
-      this.toDos = this.toDos.filter(function (toDo) {
-        return toDo.completed === true;
-      });
-
-      _classPrivateMethodGet(this, _rearrangeToDos, _rearrangeToDos2).call(this);
-
-      _classPrivateMethodGet(this, _saveToDos, _saveToDos2).call(this);
-
-      this.renderToDos();
-    }
-  }, {
-    key: "loadToDos",
-    value: function loadToDos() {
-      var toDos = JSON.parse(localStorage.getItem('toDos'));
-
-      if (toDos) {
-        _classPrivateMethodGet(this, _addToDos, _addToDos2).call(this, toDos);
-      }
-    }
-  }, {
-    key: "renderToDos",
-    value: function renderToDos() {
-      return this.toDos.map(function (toDo) {
-        return "\n            <li>\n                <p class=\"todo\">".concat(toDo.description, "</p>\n            </li>\n            <hr>\n    ");
-      }).join('');
-    }
-  }]);
-
-  return ToDoList;
-}();
-
-function _addToDos2(toDos) {
-  var _this = this;
-
-  toDos.forEach(function (toDo) {
-    _this.addToDo(toDo.index, toDo.description, toDo.completed);
+    return 0;
   });
-}
+};
 
-function _rearrangeToDos2() {
-  this.toDos.forEach(function (toDo, index) {
-    toDo.index = index;
+taskSection.addEventListener('click', function (e) {
+  if (e.target.classList.contains('span')) {
+    todos.splice(e.target.parentElement.id, 1);
+    displayTask(todos);
+    updateIndex();
+    localStorage.setItem('task', JSON.stringify(todos));
+  }
+
+  if (e.target.classList.contains('description')) {
+    userTask.focus();
+    userTask.value = e.target.innerHTML;
+    MOOD = 'UPDATE';
+    tmp = e.target.id;
+  }
+});
+(0,_edit_js__WEBPACK_IMPORTED_MODULE_1__["default"])();
+clearAllCompleted.addEventListener('click', function () {
+  todos = todos.filter(function (task) {
+    return task.status === false;
   });
-
-  _classPrivateMethodGet(this, _saveToDos, _saveToDos2).call(this);
-
-  this.renderToDos();
-}
-
-function _saveToDos2() {
-  localStorage.setItem('toDos', JSON.stringify(this.toDos));
-}
-
-
+  displayTask(todos);
+  updateIndex();
+  localStorage.setItem('task', JSON.stringify(todos));
+});
 
 /***/ }),
 
@@ -190,24 +157,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/getUrl.js */ "./node_modules/css-loader/dist/runtime/getUrl.js");
-/* harmony import */ var _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2__);
 // Imports
 
 
-
-var ___CSS_LOADER_URL_IMPORT_0___ = new URL(/* asset import */ __webpack_require__(/*! ../images/loop.svg */ "./src/images/loop.svg"), __webpack_require__.b);
-var ___CSS_LOADER_URL_IMPORT_1___ = new URL(/* asset import */ __webpack_require__(/*! ../images/check.svg */ "./src/images/check.svg"), __webpack_require__.b);
-var ___CSS_LOADER_URL_IMPORT_2___ = new URL(/* asset import */ __webpack_require__(/*! ../images/ellipsis.svg */ "./src/images/ellipsis.svg"), __webpack_require__.b);
-var ___CSS_LOADER_URL_IMPORT_3___ = new URL(/* asset import */ __webpack_require__(/*! ../images/check_box.svg */ "./src/images/check_box.svg"), __webpack_require__.b);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,500;1,400&display=swap);"]);
-var ___CSS_LOADER_URL_REPLACEMENT_0___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_0___);
-var ___CSS_LOADER_URL_REPLACEMENT_1___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_1___);
-var ___CSS_LOADER_URL_REPLACEMENT_2___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_2___);
-var ___CSS_LOADER_URL_REPLACEMENT_3___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_3___);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "* {\n  padding: 0;\n  margin: 0;\n  box-sizing: border-box;\n}\n\nbody {\n  font-family: \"Roboto\", sans-serif;\n  font-size: 16px;\n  background: #fafafa;\n}\n\nsection {\n  max-width: 450px;\n  margin: 10% auto;\n  padding-top: 20px;\n  background-color: #fff;\n  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);\n}\n\nh1 {\n  padding: 0 20px 8px 20px;\n  font-size: 16px;\n  font-weight: 500;\n  display: flex;\n}\n\nh1::after {\n  content: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n  display: inline-block;\n  width: 20px;\n  height: 20px;\n  align-self: flex-end;\n  margin-left: auto;\n  position: relative;\n  bottom: 4px;\n  cursor: pointer;\n}\n\nhr {\n  border: 1px solid #ccc;\n}\n\nform {\n  padding: 0 20px;\n  height: 48px;\n  width: 100%;\n}\n\ninput {\n  width: 100%;\n  height: 100%;\n  border: none;\n  outline: none;\n  font-size: 16px;\n  display: flex;\n}\n\nli {\n  list-style: none;\n}\n\n.todo {\n  padding: 13px 20px;\n  width: 100%;\n  display: flex;\n  align-items: center;\n}\n\n.todo::before {\n  content: url(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ");\n  display: inline-block;\n  width: 20px;\n  height: 20px;\n  align-self: flex-start;\n  margin-right: 20px;\n  position: relative;\n  bottom: 4px;\n  cursor: pointer;\n}\n\n.todo::after {\n  content: url(" + ___CSS_LOADER_URL_REPLACEMENT_2___ + ");\n  object-fit: contain;\n  display: inline-block;\n  width: 20px;\n  height: 20px;\n  align-self: flex-end;\n  margin-left: auto;\n  position: relative;\n  bottom: 4px;\n  cursor: pointer;\n}\n\n.completed {\n  text-decoration: line-through;\n  font-weight: 100;\n  font-style: italic;\n}\n\n.completed::before {\n  content: url(" + ___CSS_LOADER_URL_REPLACEMENT_3___ + ");\n  cursor: pointer;\n}\n\n.btn {\n  width: 100%;\n  height: 48px;\n  border: none;\n  outline: none;\n  font-size: 16px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n  color: grey;\n  font-style: italic;\n}", "",{"version":3,"sources":["webpack://./src/styles/style.css"],"names":[],"mappings":"AAEA;EACE,UAAA;EACA,SAAA;EACA,sBAAA;AAAF;;AAGA;EACE,iCAAA;EACA,eAAA;EACA,mBAAA;AAAF;;AAGA;EACE,gBAAA;EACA,gBAAA;EACA,iBAAA;EACA,sBAAA;EACA,0EAAA;AAAF;;AAGA;EACE,wBAAA;EACA,eAAA;EACA,gBAAA;EACA,aAAA;AAAF;;AAGA;EACE,gDAAA;EACA,qBAAA;EACA,WAAA;EACA,YAAA;EACA,oBAAA;EACA,iBAAA;EACA,kBAAA;EACA,WAAA;EACA,eAAA;AAAF;;AAGA;EACE,sBAAA;AAAF;;AAGA;EACE,eAAA;EACA,YAAA;EACA,WAAA;AAAF;;AAGA;EACE,WAAA;EACA,YAAA;EACA,YAAA;EACA,aAAA;EACA,eAAA;EACA,aAAA;AAAF;;AAGA;EACE,gBAAA;AAAF;;AAGA;EACE,kBAAA;EACA,WAAA;EACA,aAAA;EACA,mBAAA;AAAF;;AAGA;EACE,gDAAA;EACA,qBAAA;EACA,WAAA;EACA,YAAA;EACA,sBAAA;EACA,kBAAA;EACA,kBAAA;EACA,WAAA;EACA,eAAA;AAAF;;AAGA;EACE,gDAAA;EACA,mBAAA;EACA,qBAAA;EACA,WAAA;EACA,YAAA;EACA,oBAAA;EACA,iBAAA;EACA,kBAAA;EACA,WAAA;EACA,eAAA;AAAF;;AAGA;EACE,6BAAA;EACA,gBAAA;EACA,kBAAA;AAAF;;AAGA;EACE,gDAAA;EACA,eAAA;AAAF;;AAGA;EACE,WAAA;EACA,YAAA;EACA,YAAA;EACA,aAAA;EACA,eAAA;EACA,aAAA;EACA,mBAAA;EACA,uBAAA;EACA,eAAA;EACA,WAAA;EACA,kBAAA;AAAF","sourcesContent":["@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,500;1,400&display=swap');\r\n\r\n* {\r\n  padding: 0;\r\n  margin: 0;\r\n  box-sizing: border-box;\r\n}\r\n\r\nbody {\r\n  font-family: 'Roboto', sans-serif;\r\n  font-size: 16px;\r\n  background: #fafafa;\r\n}\r\n\r\nsection {\r\n  max-width: 450px;\r\n  margin: 10% auto;\r\n  padding-top: 20px;\r\n  background-color: #fff;\r\n  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);\r\n}\r\n\r\nh1 {\r\n  padding: 0 20px 8px 20px;\r\n  font-size: 16px;\r\n  font-weight: 500;\r\n  display: flex;\r\n}\r\n\r\nh1::after {\r\n  content: url(\"../images/loop.svg\");\r\n  display: inline-block;\r\n  width: 20px;\r\n  height: 20px;\r\n  align-self: flex-end;\r\n  margin-left: auto;\r\n  position: relative;\r\n  bottom: 4px;\r\n  cursor: pointer;\r\n}\r\n\r\nhr {\r\n  border: 1px solid #ccc;\r\n}\r\n\r\nform {\r\n  padding: 0 20px;\r\n  height: 48px;\r\n  width: 100%;\r\n}\r\n\r\ninput {\r\n  width: 100%;\r\n  height: 100%;\r\n  border: none;\r\n  outline: none;\r\n  font-size: 16px;\r\n  display: flex;\r\n}\r\n\r\nli {\r\n  list-style: none;\r\n}\r\n\r\n.todo {\r\n  padding: 13px 20px;\r\n  width: 100%;\r\n  display: flex;\r\n  align-items: center;\r\n}\r\n\r\n.todo::before {\r\n  content: url(\"../images/check.svg\");\r\n  display: inline-block;\r\n  width: 20px;\r\n  height: 20px;\r\n  align-self: flex-start;\r\n  margin-right: 20px;\r\n  position: relative;\r\n  bottom: 4px;\r\n  cursor: pointer;\r\n}\r\n\r\n.todo::after {\r\n  content: url(\"../images/ellipsis.svg\");\r\n  object-fit: contain;\r\n  display: inline-block;\r\n  width: 20px;\r\n  height: 20px;\r\n  align-self: flex-end;\r\n  margin-left: auto;\r\n  position: relative;\r\n  bottom: 4px;\r\n  cursor: pointer;\r\n}\r\n\r\n.completed {\r\n  text-decoration: line-through;\r\n  font-weight: 100;\r\n  font-style: italic;\r\n}\r\n\r\n.completed::before {\r\n  content: url(\"../images/check_box.svg\");\r\n  cursor: pointer;\r\n}\r\n\r\n.btn {\r\n  width: 100%;\r\n  height: 48px;\r\n  border: none;\r\n  outline: none;\r\n  font-size: 16px;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  cursor: pointer;\r\n  color: grey;\r\n  font-style: italic;\r\n}\r\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "*,\n*::before,\n*::after {\n  margin: 0;\n  padding: 0;\n  box-sizing: border-box;\n}\n\nbody {\n  background-color: #cdb9e0;\n  font-family: \"Lucida Sans\", sans-serif;\n  min-height: 100vh;\n  scroll-behavior: smooth;\n}\n\n.container {\n  margin: 80px auto;\n  width: 50%;\n  padding: 2rem;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;\n}\n\n.container h1 {\n  font-size: 40px;\n}\n\n.container button {\n  cursor: pointer;\n  outline: none;\n  border: 1px solid rgb(22, 121, 250);\n  background-color: white;\n  padding: 1rem;\n  width: 90%;\n  font-size: 15px;\n  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;\n}\n\n.container button:hover {\n  background-color: rgb(34, 71, 119);\n  color: white;\n}\n\n.header {\n  padding: 1rem;\n  width: 90%;\n  margin: auto;\n}\n\n.header input {\n  width: 100%;\n  font-size: 18px;\n  padding: 10px 10px 10px 5px;\n  display: block;\n  border: none;\n  border-bottom: 1px solid rgb(22, 121, 250);\n  outline: none;\n}\n\n.tasks {\n  display: flex;\n  flex-direction: column;\n  width: 90%;\n  padding: 1rem;\n  margin: 1rem 0;\n}\n\n.tasks .one-task {\n  background-color: rgba(30, 111, 142, 0.2);\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  border: 1px solid rgb(22, 121, 250);\n  padding: 12px;\n  margin: 5px 0;\n}\n\n.tasks .one-task span {\n  color: red;\n  font-size: 20px;\n  cursor: pointer;\n}\n\n.tasks .one-task span:hover {\n  background-color: rgba(30, 111, 142, 0.2);\n  border: 1px solid rgb(8, 7, 56);\n  border-radius: 10%;\n  padding: 3px;\n}\n\n.tasks .one-task .data {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.tasks .one-task .data p {\n  margin-left: 6px;\n  font-size: 20px;\n}\n\nfooter {\n  border: 1px solid rgb(14, 3, 34);\n  width: 100%;\n  padding: 1rem;\n  text-align: center;\n  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;\n  position: absolute;\n  bottom: 0;\n}\n\n.checked {\n  text-decoration: line-through;\n  color: gray;\n}", "",{"version":3,"sources":["webpack://./src/styles/style.css"],"names":[],"mappings":"AAAA;;;EAGE,SAAA;EACA,UAAA;EACA,sBAAA;AACF;;AAEA;EACE,yBAAA;EACA,sCAAA;EACA,iBAAA;EACA,uBAAA;AACF;;AAEA;EACE,iBAAA;EACA,UAAA;EACA,aAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;EACA,uBAAA;EACA,yCAAA;AACF;;AAEA;EACE,eAAA;AACF;;AAEA;EACE,eAAA;EACA,aAAA;EACA,mCAAA;EACA,uBAAA;EACA,aAAA;EACA,UAAA;EACA,eAAA;EACA,iDAAA;AACF;;AAEA;EACE,kCAAA;EACA,YAAA;AACF;;AAEA;EACE,aAAA;EACA,UAAA;EACA,YAAA;AACF;;AAEA;EACE,WAAA;EACA,eAAA;EACA,2BAAA;EACA,cAAA;EACA,YAAA;EACA,0CAAA;EACA,aAAA;AACF;;AAEA;EACE,aAAA;EACA,sBAAA;EACA,UAAA;EACA,aAAA;EACA,cAAA;AACF;;AAEA;EACE,yCAAA;EACA,aAAA;EACA,8BAAA;EACA,mBAAA;EACA,mCAAA;EACA,aAAA;EACA,aAAA;AACF;;AAEA;EACE,UAAA;EACA,eAAA;EACA,eAAA;AACF;;AAEA;EACE,yCAAA;EACA,+BAAA;EACA,kBAAA;EACA,YAAA;AACF;;AAEA;EACE,aAAA;EACA,mBAAA;EACA,uBAAA;AACF;;AAEA;EACE,gBAAA;EACA,eAAA;AACF;;AAEA;EACE,gCAAA;EACA,WAAA;EACA,aAAA;EACA,kBAAA;EACA,iDAAA;EACA,kBAAA;EACA,SAAA;AACF;;AAEA;EACE,6BAAA;EACA,WAAA;AACF","sourcesContent":["*,\r\n*::before,\r\n*::after {\r\n  margin: 0;\r\n  padding: 0;\r\n  box-sizing: border-box;\r\n}\r\n\r\nbody {\r\n  background-color: #cdb9e0;\r\n  font-family: 'Lucida Sans', sans-serif;\r\n  min-height: 100vh;\r\n  scroll-behavior: smooth;\r\n}\r\n\r\n.container {\r\n  margin: 80px auto;\r\n  width: 50%;\r\n  padding: 2rem;\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n  justify-content: center;\r\n  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;\r\n}\r\n\r\n.container h1 {\r\n  font-size: 40px;\r\n}\r\n\r\n.container button {\r\n  cursor: pointer;\r\n  outline: none;\r\n  border: 1px solid rgb(22, 121, 250);\r\n  background-color: white;\r\n  padding: 1rem;\r\n  width: 90%;\r\n  font-size: 15px;\r\n  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;\r\n}\r\n\r\n.container button:hover {\r\n  background-color: rgb(34, 71, 119);\r\n  color: white;\r\n}\r\n\r\n.header {\r\n  padding: 1rem;\r\n  width: 90%;\r\n  margin: auto;\r\n}\r\n\r\n.header input {\r\n  width: 100%;\r\n  font-size: 18px;\r\n  padding: 10px 10px 10px 5px;\r\n  display: block;\r\n  border: none;\r\n  border-bottom: 1px solid rgb(22, 121, 250);\r\n  outline: none;\r\n}\r\n\r\n.tasks {\r\n  display: flex;\r\n  flex-direction: column;\r\n  width: 90%;\r\n  padding: 1rem;\r\n  margin: 1rem 0;\r\n}\r\n\r\n.tasks .one-task {\r\n  background-color: rgba(30, 111, 142, 0.2);\r\n  display: flex;\r\n  justify-content: space-between;\r\n  align-items: center;\r\n  border: 1px solid rgb(22, 121, 250);\r\n  padding: 12px;\r\n  margin: 5px 0;\r\n}\r\n\r\n.tasks .one-task span {\r\n  color: red;\r\n  font-size: 20px;\r\n  cursor: pointer;\r\n}\r\n\r\n.tasks .one-task span:hover {\r\n  background-color: rgba(30, 111, 142, 0.2);\r\n  border: 1px solid rgb(8, 7, 56);\r\n  border-radius: 10%;\r\n  padding: 3px;\r\n}\r\n\r\n.tasks .one-task .data {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n}\r\n\r\n.tasks .one-task .data p {\r\n  margin-left: 6px;\r\n  font-size: 20px;\r\n}\r\n\r\nfooter {\r\n  border: 1px solid rgb(14, 3, 34);\r\n  width: 100%;\r\n  padding: 1rem;\r\n  text-align: center;\r\n  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;\r\n  position: absolute;\r\n  bottom: 0;\r\n}\r\n\r\n.checked {\r\n  text-decoration: line-through;\r\n  color: gray;\r\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -321,44 +276,6 @@ module.exports = function (cssWithMappingToString) {
   };
 
   return list;
-};
-
-/***/ }),
-
-/***/ "./node_modules/css-loader/dist/runtime/getUrl.js":
-/*!********************************************************!*\
-  !*** ./node_modules/css-loader/dist/runtime/getUrl.js ***!
-  \********************************************************/
-/***/ ((module) => {
-
-
-
-module.exports = function (url, options) {
-  if (!options) {
-    options = {};
-  }
-
-  if (!url) {
-    return url;
-  }
-
-  url = String(url.__esModule ? url.default : url); // If url is already wrapped in quotes, remove them
-
-  if (/^['"].*['"]$/.test(url)) {
-    url = url.slice(1, -1);
-  }
-
-  if (options.hash) {
-    url += options.hash;
-  } // Should url be wrapped?
-  // See https://drafts.csswg.org/css-values-3/#urls
-
-
-  if (/["'() \t\n]|(%20)/.test(url) || options.needQuotes) {
-    return "\"".concat(url.replace(/"/g, '\\"').replace(/\n/g, "\\n"), "\"");
-  }
-
-  return url;
 };
 
 /***/ }),
@@ -752,46 +669,6 @@ function styleTagTransform(css, styleElement) {
 
 module.exports = styleTagTransform;
 
-/***/ }),
-
-/***/ "./src/images/check.svg":
-/*!******************************!*\
-  !*** ./src/images/check.svg ***!
-  \******************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports = __webpack_require__.p + "check.svg";
-
-/***/ }),
-
-/***/ "./src/images/check_box.svg":
-/*!**********************************!*\
-  !*** ./src/images/check_box.svg ***!
-  \**********************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports = __webpack_require__.p + "check_box.svg";
-
-/***/ }),
-
-/***/ "./src/images/ellipsis.svg":
-/*!*********************************!*\
-  !*** ./src/images/ellipsis.svg ***!
-  \*********************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports = __webpack_require__.p + "ellipsis.svg";
-
-/***/ }),
-
-/***/ "./src/images/loop.svg":
-/*!*****************************!*\
-  !*** ./src/images/loop.svg ***!
-  \*****************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports = __webpack_require__.p + "loop.svg";
-
 /***/ })
 
 /******/ 	});
@@ -820,9 +697,6 @@ module.exports = __webpack_require__.p + "loop.svg";
 /******/ 		return module.exports;
 /******/ 	}
 /******/ 	
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = __webpack_modules__;
-/******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	(() => {
@@ -848,18 +722,6 @@ module.exports = __webpack_require__.p + "loop.svg";
 /******/ 		};
 /******/ 	})();
 /******/ 	
-/******/ 	/* webpack/runtime/global */
-/******/ 	(() => {
-/******/ 		__webpack_require__.g = (function() {
-/******/ 			if (typeof globalThis === 'object') return globalThis;
-/******/ 			try {
-/******/ 				return this || new Function('return this')();
-/******/ 			} catch (e) {
-/******/ 				if (typeof window === 'object') return window;
-/******/ 			}
-/******/ 		})();
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
@@ -876,70 +738,13 @@ module.exports = __webpack_require__.p + "loop.svg";
 /******/ 		};
 /******/ 	})();
 /******/ 	
-/******/ 	/* webpack/runtime/publicPath */
-/******/ 	(() => {
-/******/ 		var scriptUrl;
-/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
-/******/ 		var document = __webpack_require__.g.document;
-/******/ 		if (!scriptUrl && document) {
-/******/ 			if (document.currentScript)
-/******/ 				scriptUrl = document.currentScript.src
-/******/ 			if (!scriptUrl) {
-/******/ 				var scripts = document.getElementsByTagName("script");
-/******/ 				if(scripts.length) scriptUrl = scripts[scripts.length - 1].src
-/******/ 			}
-/******/ 		}
-/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
-/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
-/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
-/******/ 		scriptUrl = scriptUrl.replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
-/******/ 		__webpack_require__.p = scriptUrl;
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/jsonp chunk loading */
-/******/ 	(() => {
-/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
-/******/ 		
-/******/ 		// object to store loaded and loading chunks
-/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
-/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
-/******/ 		var installedChunks = {
-/******/ 			"bundle": 0
-/******/ 		};
-/******/ 		
-/******/ 		// no chunk on demand loading
-/******/ 		
-/******/ 		// no prefetching
-/******/ 		
-/******/ 		// no preloaded
-/******/ 		
-/******/ 		// no HMR
-/******/ 		
-/******/ 		// no HMR manifest
-/******/ 		
-/******/ 		// no on chunks loaded
-/******/ 		
-/******/ 		// no jsonp function
-/******/ 	})();
-/******/ 	
 /************************************************************************/
-var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
-(() => {
-/*!**********************!*\
-  !*** ./src/index.js ***!
-  \**********************/
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _modules_todolist_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/todolist.js */ "./src/modules/todolist.js");
-/* harmony import */ var _styles_style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./styles/style.css */ "./src/styles/style.css");
-
-
-var todoList = new _modules_todolist_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
-todoList.addToDo('Wash my car');
-var todoListElement = document.querySelector('.todo-list');
-todoListElement.innerHTML = todoList.renderToDos();
-})();
-
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module is referenced by other modules so it can't be inlined
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/index.js");
+/******/ 	
 /******/ })()
 ;
-//# sourceMappingURL=bundle58733fd19e95c6255d88.js.map
+//# sourceMappingURL=bundle8d512827d769723b14fe.js.map

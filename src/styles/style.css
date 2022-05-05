@@ -1,120 +1,118 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,500;1,400&display=swap');
-
-* {
-  padding: 0;
+*,
+*::before,
+*::after {
   margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
-  font-size: 16px;
-  background: #fafafa;
+  background-color: #cdb9e0;
+  font-family: 'Lucida Sans', sans-serif;
+  min-height: 100vh;
+  scroll-behavior: smooth;
 }
 
-section {
-  max-width: 450px;
-  margin: 10% auto;
-  padding-top: 20px;
-  background-color: #fff;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-}
-
-h1 {
-  padding: 0 20px 8px 20px;
-  font-size: 16px;
-  font-weight: 500;
+.container {
+  margin: 80px auto;
+  width: 50%;
+  padding: 2rem;
   display: flex;
-}
-
-h1::after {
-  content: url("../images/loop.svg");
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  align-self: flex-end;
-  margin-left: auto;
-  position: relative;
-  bottom: 4px;
-  cursor: pointer;
-}
-
-hr {
-  border: 1px solid #ccc;
-}
-
-form {
-  padding: 0 20px;
-  height: 48px;
-  width: 100%;
-}
-
-input {
-  width: 100%;
-  height: 100%;
-  border: none;
-  outline: none;
-  font-size: 16px;
-  display: flex;
-}
-
-li {
-  list-style: none;
-}
-
-.todo {
-  padding: 13px 20px;
-  width: 100%;
-  display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
 }
 
-.todo::before {
-  content: url("../images/check.svg");
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  align-self: flex-start;
-  margin-right: 20px;
-  position: relative;
-  bottom: 4px;
+.container h1 {
+  font-size: 40px;
+}
+
+.container button {
   cursor: pointer;
-}
-
-.todo::after {
-  content: url("../images/ellipsis.svg");
-  object-fit: contain;
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  align-self: flex-end;
-  margin-left: auto;
-  position: relative;
-  bottom: 4px;
-  cursor: pointer;
-}
-
-.completed {
-  text-decoration: line-through;
-  font-weight: 100;
-  font-style: italic;
-}
-
-.completed::before {
-  content: url("../images/check_box.svg");
-  cursor: pointer;
-}
-
-.btn {
-  width: 100%;
-  height: 48px;
-  border: none;
   outline: none;
-  font-size: 16px;
+  border: 1px solid rgb(22, 121, 250);
+  background-color: white;
+  padding: 1rem;
+  width: 90%;
+  font-size: 15px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+}
+
+.container button:hover {
+  background-color: rgb(34, 71, 119);
+  color: white;
+}
+
+.header {
+  padding: 1rem;
+  width: 90%;
+  margin: auto;
+}
+
+.header input {
+  width: 100%;
+  font-size: 18px;
+  padding: 10px 10px 10px 5px;
+  display: block;
+  border: none;
+  border-bottom: 1px solid rgb(22, 121, 250);
+  outline: none;
+}
+
+.tasks {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.tasks .one-task {
+  background-color: rgba(30, 111, 142, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid rgb(22, 121, 250);
+  padding: 12px;
+  margin: 5px 0;
+}
+
+.tasks .one-task span {
+  color: red;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.tasks .one-task span:hover {
+  background-color: rgba(30, 111, 142, 0.2);
+  border: 1px solid rgb(8, 7, 56);
+  border-radius: 10%;
+  padding: 3px;
+}
+
+.tasks .one-task .data {
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  color: grey;
-  font-style: italic;
+}
+
+.tasks .one-task .data p {
+  margin-left: 6px;
+  font-size: 20px;
+}
+
+footer {
+  border: 1px solid rgb(14, 3, 34);
+  width: 100%;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+  position: absolute;
+  bottom: 0;
+}
+
+.checked {
+  text-decoration: line-through;
+  color: gray;
 }
