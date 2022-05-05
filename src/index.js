@@ -1,5 +1,5 @@
 import './styles/style.css';
-import edit from './edit.js' //eslint-disable-line
+import change from './change.js' //eslint-disable-line
 export const taskSection = document.querySelector('.tasks');
 const userTask = document.querySelector('.user-task');
 const clearAllCompleted = document.querySelector('.clearAll');
@@ -89,7 +89,7 @@ taskSection.addEventListener('click', (e) => {
   }
 });
 
-edit();
+change();
 clearAllCompleted.addEventListener('click', () => {
   todos = todos.filter((task) => task.status === false);
   displayTask(todos);
