@@ -2,7 +2,7 @@
   "name": "to-do-list-app",
   "version": "1.0.0",
   "description": "![](https://img.shields.io/badge/Microverse-blueviolet)",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "build": "webpack",
     "dev": "webpack serve"

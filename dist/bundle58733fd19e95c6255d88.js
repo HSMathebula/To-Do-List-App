@@ -2,9 +2,183 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/styles/main.scss":
+/***/ "./src/modules/todo.js":
+/*!*****************************!*\
+  !*** ./src/modules/todo.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ ToDo)
+/* harmony export */ });
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ToDo = /*#__PURE__*/_createClass(function ToDo(index, description, completed) {
+  _classCallCheck(this, ToDo);
+
+  this.index = index;
+  this.description = description;
+  this.completed = completed;
+});
+
+
+
+/***/ }),
+
+/***/ "./src/modules/todolist.js":
+/*!*********************************!*\
+  !*** ./src/modules/todolist.js ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ ToDoList)
+/* harmony export */ });
+/* harmony import */ var _todo_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./todo.js */ "./src/modules/todo.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function _classPrivateMethodInitSpec(obj, privateSet) { _checkPrivateRedeclaration(obj, privateSet); privateSet.add(obj); }
+
+function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
+
+function _classPrivateMethodGet(receiver, privateSet, fn) { if (!privateSet.has(receiver)) { throw new TypeError("attempted to get private field on non-instance"); } return fn; }
+
+
+
+var _addToDos = /*#__PURE__*/new WeakSet();
+
+var _rearrangeToDos = /*#__PURE__*/new WeakSet();
+
+var _saveToDos = /*#__PURE__*/new WeakSet();
+
+var ToDoList = /*#__PURE__*/function () {
+  function ToDoList() {
+    _classCallCheck(this, ToDoList);
+
+    _classPrivateMethodInitSpec(this, _saveToDos);
+
+    _classPrivateMethodInitSpec(this, _rearrangeToDos);
+
+    _classPrivateMethodInitSpec(this, _addToDos);
+
+    this.toDos = [];
+  }
+
+  _createClass(ToDoList, [{
+    key: "addToDo",
+    value: function addToDo(description) {
+      var index = this.toDos.length;
+      var toDo = new _todo_js__WEBPACK_IMPORTED_MODULE_0__["default"](index, description, false);
+      this.toDos.push(toDo);
+
+      _classPrivateMethodGet(this, _saveToDos, _saveToDos2).call(this);
+
+      this.renderToDos();
+    }
+  }, {
+    key: "getToDos",
+    value: function getToDos() {
+      return this.toDos;
+    }
+  }, {
+    key: "removeToDo",
+    value: function removeToDo(id) {
+      this.toDos = this.toDos.filter(function (toDo) {
+        return toDo.index !== id;
+      });
+
+      _classPrivateMethodGet(this, _rearrangeToDos, _rearrangeToDos2).call(this);
+
+      _classPrivateMethodGet(this, _saveToDos, _saveToDos2).call(this);
+
+      this.renderToDos();
+    }
+  }, {
+    key: "updateToDoCompleted",
+    value: function updateToDoCompleted(id) {
+      this.toDos.forEach(function (toDo) {
+        if (toDo.index === id) {
+          toDo.completed = !toDo.completed;
+        }
+      });
+
+      _classPrivateMethodGet(this, _saveToDos, _saveToDos2).call(this);
+
+      this.renderToDos();
+    }
+  }, {
+    key: "removeAllCompleted",
+    value: function removeAllCompleted() {
+      this.toDos = this.toDos.filter(function (toDo) {
+        return toDo.completed === true;
+      });
+
+      _classPrivateMethodGet(this, _rearrangeToDos, _rearrangeToDos2).call(this);
+
+      _classPrivateMethodGet(this, _saveToDos, _saveToDos2).call(this);
+
+      this.renderToDos();
+    }
+  }, {
+    key: "loadToDos",
+    value: function loadToDos() {
+      var toDos = JSON.parse(localStorage.getItem('toDos'));
+
+      if (toDos) {
+        _classPrivateMethodGet(this, _addToDos, _addToDos2).call(this, toDos);
+      }
+    }
+  }, {
+    key: "renderToDos",
+    value: function renderToDos() {
+      return this.toDos.map(function (toDo) {
+        return "\n            <li>\n                <p class=\"todo\">".concat(toDo.description, "</p>\n            </li>\n            <hr>\n    ");
+      }).join('');
+    }
+  }]);
+
+  return ToDoList;
+}();
+
+function _addToDos2(toDos) {
+  var _this = this;
+
+  toDos.forEach(function (toDo) {
+    _this.addToDo(toDo.index, toDo.description, toDo.completed);
+  });
+}
+
+function _rearrangeToDos2() {
+  this.toDos.forEach(function (toDo, index) {
+    toDo.index = index;
+  });
+
+  _classPrivateMethodGet(this, _saveToDos, _saveToDos2).call(this);
+
+  this.renderToDos();
+}
+
+function _saveToDos2() {
+  localStorage.setItem('toDos', JSON.stringify(this.toDos));
+}
+
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/styles/style.css":
 /*!***********************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/styles/main.scss ***!
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/styles/style.css ***!
   \***********************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
@@ -16,13 +190,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/getUrl.js */ "./node_modules/css-loader/dist/runtime/getUrl.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2__);
 // Imports
 
 
+
+var ___CSS_LOADER_URL_IMPORT_0___ = new URL(/* asset import */ __webpack_require__(/*! ../images/loop.svg */ "./src/images/loop.svg"), __webpack_require__.b);
+var ___CSS_LOADER_URL_IMPORT_1___ = new URL(/* asset import */ __webpack_require__(/*! ../images/check.svg */ "./src/images/check.svg"), __webpack_require__.b);
+var ___CSS_LOADER_URL_IMPORT_2___ = new URL(/* asset import */ __webpack_require__(/*! ../images/ellipsis.svg */ "./src/images/ellipsis.svg"), __webpack_require__.b);
+var ___CSS_LOADER_URL_IMPORT_3___ = new URL(/* asset import */ __webpack_require__(/*! ../images/check_box.svg */ "./src/images/check_box.svg"), __webpack_require__.b);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
-___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap);"]);
+___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,500;1,400&display=swap);"]);
+var ___CSS_LOADER_URL_REPLACEMENT_0___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_0___);
+var ___CSS_LOADER_URL_REPLACEMENT_1___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_1___);
+var ___CSS_LOADER_URL_REPLACEMENT_2___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_2___);
+var ___CSS_LOADER_URL_REPLACEMENT_3___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_2___default()(___CSS_LOADER_URL_IMPORT_3___);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "* {\n  box-sizing: border-box;\n}\n\nbody {\n  background-color: #2fa8cc;\n  font-family: \"Roboto\", sans-serif;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  height: 100vh;\n  overflow: hidden;\n  margin: 0;\n  padding: 20px;\n}\n\n.container {\n  background-color: #f4f4f4;\n  border-radius: 10px;\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);\n  padding: 50px 20px;\n  text-align: center;\n  max-width: 100%;\n  width: 800px;\n}\n\nh3 {\n  margin: 0;\n  opacity: 0.5;\n  letter-spacing: 2px;\n}\n\nimg {\n  width: 100px;\n  margin-bottom: 20px;\n}\n\n.joke {\n  font-size: 30px;\n  letter-spacing: 1px;\n  line-height: 40px;\n  margin: 50px auto;\n  max-width: 600px;\n}\n\n.btn {\n  background-color: #2fa8cc;\n  color: #f4f4f4;\n  border: 0;\n  border-radius: 10px;\n  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);\n  padding: 14px 40px;\n  font-size: 16px;\n  cursor: pointer;\n}\n.btn:active {\n  transform: scale(0.98);\n}\n.btn:focus {\n  outline: 0;\n}", "",{"version":3,"sources":["webpack://./src/styles/main.scss"],"names":[],"mappings":"AAMA;EACE,sBAAA;AAJF;;AAOA;EACE,yBATc;EAUd,iCAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;EACA,uBAAA;EACA,aAAA;EACA,gBAAA;EACA,SAAA;EACA,aAAA;AAJF;;AAOA;EACE,yBArBgB;EAsBhB,mBAAA;EACA,wEAtBW;EAuBX,kBAAA;EACA,kBAAA;EACA,eAAA;EACA,YAAA;AAJF;;AAOA;EACE,SAAA;EACA,YAAA;EACA,mBAAA;AAJF;;AAOA;EACE,YAAA;EACA,mBAAA;AAJF;;AAOA;EACE,eAAA;EACA,mBAAA;EACA,iBAAA;EACA,iBAAA;EACA,gBAAA;AAJF;;AAOA;EACE,yBAnDc;EAoDd,cAnDgB;EAoDhB,SAAA;EACA,mBAAA;EACA,uEAAA;EACA,kBAAA;EACA,eAAA;EACA,eAAA;AAJF;AAME;EACE,sBAAA;AAJJ;AAOE;EACE,UAAA;AALJ","sourcesContent":["@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');\r\n\r\n$primary-color: #2fa8cc;\r\n$secondary-color: #f4f4f4;\r\n$box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);\r\n\r\n* {\r\n  box-sizing: border-box;\r\n}\r\n\r\nbody {\r\n  background-color: $primary-color;\r\n  font-family: 'Roboto', sans-serif;\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n  justify-content: center;\r\n  height: 100vh;\r\n  overflow: hidden;\r\n  margin: 0;\r\n  padding: 20px;\r\n}\r\n\r\n.container {\r\n  background-color: $secondary-color;\r\n  border-radius: 10px;\r\n  box-shadow: $box-shadow;\r\n  padding: 50px 20px;\r\n  text-align: center;\r\n  max-width: 100%;\r\n  width: 800px;\r\n}\r\n\r\nh3 {\r\n  margin: 0;\r\n  opacity: 0.5;\r\n  letter-spacing: 2px;\r\n}\r\n\r\nimg {\r\n  width: 100px;\r\n  margin-bottom: 20px;\r\n}\r\n\r\n.joke {\r\n  font-size: 30px;\r\n  letter-spacing: 1px;\r\n  line-height: 40px;\r\n  margin: 50px auto;\r\n  max-width: 600px;\r\n}\r\n\r\n.btn {\r\n  background-color: $primary-color;\r\n  color: $secondary-color;\r\n  border: 0;\r\n  border-radius: 10px;\r\n  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);\r\n  padding: 14px 40px;\r\n  font-size: 16px;\r\n  cursor: pointer;\r\n\r\n  &:active {\r\n    transform: scale(0.98);\r\n  }\r\n\r\n  &:focus {\r\n    outline: 0;\r\n  }\r\n}"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "* {\n  padding: 0;\n  margin: 0;\n  box-sizing: border-box;\n}\n\nbody {\n  font-family: \"Roboto\", sans-serif;\n  font-size: 16px;\n  background: #fafafa;\n}\n\nsection {\n  max-width: 450px;\n  margin: 10% auto;\n  padding-top: 20px;\n  background-color: #fff;\n  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);\n}\n\nh1 {\n  padding: 0 20px 8px 20px;\n  font-size: 16px;\n  font-weight: 500;\n  display: flex;\n}\n\nh1::after {\n  content: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ");\n  display: inline-block;\n  width: 20px;\n  height: 20px;\n  align-self: flex-end;\n  margin-left: auto;\n  position: relative;\n  bottom: 4px;\n  cursor: pointer;\n}\n\nhr {\n  border: 1px solid #ccc;\n}\n\nform {\n  padding: 0 20px;\n  height: 48px;\n  width: 100%;\n}\n\ninput {\n  width: 100%;\n  height: 100%;\n  border: none;\n  outline: none;\n  font-size: 16px;\n  display: flex;\n}\n\nli {\n  list-style: none;\n}\n\n.todo {\n  padding: 13px 20px;\n  width: 100%;\n  display: flex;\n  align-items: center;\n}\n\n.todo::before {\n  content: url(" + ___CSS_LOADER_URL_REPLACEMENT_1___ + ");\n  display: inline-block;\n  width: 20px;\n  height: 20px;\n  align-self: flex-start;\n  margin-right: 20px;\n  position: relative;\n  bottom: 4px;\n  cursor: pointer;\n}\n\n.todo::after {\n  content: url(" + ___CSS_LOADER_URL_REPLACEMENT_2___ + ");\n  object-fit: contain;\n  display: inline-block;\n  width: 20px;\n  height: 20px;\n  align-self: flex-end;\n  margin-left: auto;\n  position: relative;\n  bottom: 4px;\n  cursor: pointer;\n}\n\n.completed {\n  text-decoration: line-through;\n  font-weight: 100;\n  font-style: italic;\n}\n\n.completed::before {\n  content: url(" + ___CSS_LOADER_URL_REPLACEMENT_3___ + ");\n  cursor: pointer;\n}\n\n.btn {\n  width: 100%;\n  height: 48px;\n  border: none;\n  outline: none;\n  font-size: 16px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  cursor: pointer;\n  color: grey;\n  font-style: italic;\n}", "",{"version":3,"sources":["webpack://./src/styles/style.css"],"names":[],"mappings":"AAEA;EACE,UAAA;EACA,SAAA;EACA,sBAAA;AAAF;;AAGA;EACE,iCAAA;EACA,eAAA;EACA,mBAAA;AAAF;;AAGA;EACE,gBAAA;EACA,gBAAA;EACA,iBAAA;EACA,sBAAA;EACA,0EAAA;AAAF;;AAGA;EACE,wBAAA;EACA,eAAA;EACA,gBAAA;EACA,aAAA;AAAF;;AAGA;EACE,gDAAA;EACA,qBAAA;EACA,WAAA;EACA,YAAA;EACA,oBAAA;EACA,iBAAA;EACA,kBAAA;EACA,WAAA;EACA,eAAA;AAAF;;AAGA;EACE,sBAAA;AAAF;;AAGA;EACE,eAAA;EACA,YAAA;EACA,WAAA;AAAF;;AAGA;EACE,WAAA;EACA,YAAA;EACA,YAAA;EACA,aAAA;EACA,eAAA;EACA,aAAA;AAAF;;AAGA;EACE,gBAAA;AAAF;;AAGA;EACE,kBAAA;EACA,WAAA;EACA,aAAA;EACA,mBAAA;AAAF;;AAGA;EACE,gDAAA;EACA,qBAAA;EACA,WAAA;EACA,YAAA;EACA,sBAAA;EACA,kBAAA;EACA,kBAAA;EACA,WAAA;EACA,eAAA;AAAF;;AAGA;EACE,gDAAA;EACA,mBAAA;EACA,qBAAA;EACA,WAAA;EACA,YAAA;EACA,oBAAA;EACA,iBAAA;EACA,kBAAA;EACA,WAAA;EACA,eAAA;AAAF;;AAGA;EACE,6BAAA;EACA,gBAAA;EACA,kBAAA;AAAF;;AAGA;EACE,gDAAA;EACA,eAAA;AAAF;;AAGA;EACE,WAAA;EACA,YAAA;EACA,YAAA;EACA,aAAA;EACA,eAAA;EACA,aAAA;EACA,mBAAA;EACA,uBAAA;EACA,eAAA;EACA,WAAA;EACA,kBAAA;AAAF","sourcesContent":["@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,500;1,400&display=swap');\r\n\r\n* {\r\n  padding: 0;\r\n  margin: 0;\r\n  box-sizing: border-box;\r\n}\r\n\r\nbody {\r\n  font-family: 'Roboto', sans-serif;\r\n  font-size: 16px;\r\n  background: #fafafa;\r\n}\r\n\r\nsection {\r\n  max-width: 450px;\r\n  margin: 10% auto;\r\n  padding-top: 20px;\r\n  background-color: #fff;\r\n  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);\r\n}\r\n\r\nh1 {\r\n  padding: 0 20px 8px 20px;\r\n  font-size: 16px;\r\n  font-weight: 500;\r\n  display: flex;\r\n}\r\n\r\nh1::after {\r\n  content: url(\"../images/loop.svg\");\r\n  display: inline-block;\r\n  width: 20px;\r\n  height: 20px;\r\n  align-self: flex-end;\r\n  margin-left: auto;\r\n  position: relative;\r\n  bottom: 4px;\r\n  cursor: pointer;\r\n}\r\n\r\nhr {\r\n  border: 1px solid #ccc;\r\n}\r\n\r\nform {\r\n  padding: 0 20px;\r\n  height: 48px;\r\n  width: 100%;\r\n}\r\n\r\ninput {\r\n  width: 100%;\r\n  height: 100%;\r\n  border: none;\r\n  outline: none;\r\n  font-size: 16px;\r\n  display: flex;\r\n}\r\n\r\nli {\r\n  list-style: none;\r\n}\r\n\r\n.todo {\r\n  padding: 13px 20px;\r\n  width: 100%;\r\n  display: flex;\r\n  align-items: center;\r\n}\r\n\r\n.todo::before {\r\n  content: url(\"../images/check.svg\");\r\n  display: inline-block;\r\n  width: 20px;\r\n  height: 20px;\r\n  align-self: flex-start;\r\n  margin-right: 20px;\r\n  position: relative;\r\n  bottom: 4px;\r\n  cursor: pointer;\r\n}\r\n\r\n.todo::after {\r\n  content: url(\"../images/ellipsis.svg\");\r\n  object-fit: contain;\r\n  display: inline-block;\r\n  width: 20px;\r\n  height: 20px;\r\n  align-self: flex-end;\r\n  margin-left: auto;\r\n  position: relative;\r\n  bottom: 4px;\r\n  cursor: pointer;\r\n}\r\n\r\n.completed {\r\n  text-decoration: line-through;\r\n  font-weight: 100;\r\n  font-style: italic;\r\n}\r\n\r\n.completed::before {\r\n  content: url(\"../images/check_box.svg\");\r\n  cursor: pointer;\r\n}\r\n\r\n.btn {\r\n  width: 100%;\r\n  height: 48px;\r\n  border: none;\r\n  outline: none;\r\n  font-size: 16px;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: center;\r\n  cursor: pointer;\r\n  color: grey;\r\n  font-style: italic;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -140,6 +325,44 @@ module.exports = function (cssWithMappingToString) {
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/runtime/getUrl.js":
+/*!********************************************************!*\
+  !*** ./node_modules/css-loader/dist/runtime/getUrl.js ***!
+  \********************************************************/
+/***/ ((module) => {
+
+
+
+module.exports = function (url, options) {
+  if (!options) {
+    options = {};
+  }
+
+  if (!url) {
+    return url;
+  }
+
+  url = String(url.__esModule ? url.default : url); // If url is already wrapped in quotes, remove them
+
+  if (/^['"].*['"]$/.test(url)) {
+    url = url.slice(1, -1);
+  }
+
+  if (options.hash) {
+    url += options.hash;
+  } // Should url be wrapped?
+  // See https://drafts.csswg.org/css-values-3/#urls
+
+
+  if (/["'() \t\n]|(%20)/.test(url) || options.needQuotes) {
+    return "\"".concat(url.replace(/"/g, '\\"').replace(/\n/g, "\\n"), "\"");
+  }
+
+  return url;
+};
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/runtime/sourceMaps.js":
 /*!************************************************************!*\
   !*** ./node_modules/css-loader/dist/runtime/sourceMaps.js ***!
@@ -171,9 +394,9 @@ module.exports = function (item) {
 
 /***/ }),
 
-/***/ "./src/styles/main.scss":
+/***/ "./src/styles/style.css":
 /*!******************************!*\
-  !*** ./src/styles/main.scss ***!
+  !*** ./src/styles/style.css ***!
   \******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -193,7 +416,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_main_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/dist/cjs.js!./main.scss */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/styles/main.scss");
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_style_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../node_modules/css-loader/dist/cjs.js!../../node_modules/sass-loader/dist/cjs.js!./style.css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/styles/style.css");
 
       
       
@@ -215,12 +438,12 @@ options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWi
 options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
 options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
 
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_main_scss__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_style_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
 
 
 
 
-       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_main_scss__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_main_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_main_scss__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_style_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_style_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_node_modules_sass_loader_dist_cjs_js_style_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
 
 
 /***/ }),
@@ -529,6 +752,46 @@ function styleTagTransform(css, styleElement) {
 
 module.exports = styleTagTransform;
 
+/***/ }),
+
+/***/ "./src/images/check.svg":
+/*!******************************!*\
+  !*** ./src/images/check.svg ***!
+  \******************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+module.exports = __webpack_require__.p + "check.svg";
+
+/***/ }),
+
+/***/ "./src/images/check_box.svg":
+/*!**********************************!*\
+  !*** ./src/images/check_box.svg ***!
+  \**********************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+module.exports = __webpack_require__.p + "check_box.svg";
+
+/***/ }),
+
+/***/ "./src/images/ellipsis.svg":
+/*!*********************************!*\
+  !*** ./src/images/ellipsis.svg ***!
+  \*********************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+module.exports = __webpack_require__.p + "ellipsis.svg";
+
+/***/ }),
+
+/***/ "./src/images/loop.svg":
+/*!*****************************!*\
+  !*** ./src/images/loop.svg ***!
+  \*****************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+module.exports = __webpack_require__.p + "loop.svg";
+
 /***/ })
 
 /******/ 	});
@@ -557,6 +820,9 @@ module.exports = styleTagTransform;
 /******/ 		return module.exports;
 /******/ 	}
 /******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	(() => {
@@ -582,6 +848,18 @@ module.exports = styleTagTransform;
 /******/ 		};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
@@ -598,6 +876,52 @@ module.exports = styleTagTransform;
 /******/ 		};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
+/******/ 		var document = __webpack_require__.g.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript)
+/******/ 				scriptUrl = document.currentScript.src
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) scriptUrl = scripts[scripts.length - 1].src
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"bundle": 0
+/******/ 		};
+/******/ 		
+/******/ 		// no chunk on demand loading
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		// no on chunks loaded
+/******/ 		
+/******/ 		// no jsonp function
+/******/ 	})();
+/******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
@@ -606,11 +930,16 @@ var __webpack_exports__ = {};
   !*** ./src/index.js ***!
   \**********************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _styles_main_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./styles/main.scss */ "./src/styles/main.scss");
+/* harmony import */ var _modules_todolist_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/todolist.js */ "./src/modules/todolist.js");
+/* harmony import */ var _styles_style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./styles/style.css */ "./src/styles/style.css");
 
-console.log('hello world');
+
+var todoList = new _modules_todolist_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
+todoList.addToDo('Wash my car');
+var todoListElement = document.querySelector('.todo-list');
+todoListElement.innerHTML = todoList.renderToDos();
 })();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle89dc46cc70fd200e83ee.js.map
+//# sourceMappingURL=bundle58733fd19e95c6255d88.js.map

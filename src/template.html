@@ -7,11 +7,17 @@
     <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 <body>
-    <div class="container">
-        <img id="laughImg" alt="" />
-        <h3>Don't Laugh Challenge</h3>
-        <div id="joke" class="joke"></div>
-        <button id="jokeBtn" class="btn">Get Another Joke</button>
-    </div>
+    <main>
+        <section>
+            <h1>Today's To Do</h1>
+            <hr>
+            <form action="#">
+                <input type="text" name="todo" placeholder="Add to your list...">
+            </form>
+            <hr>
+            <ul class="todo-list"></ul>
+            <button class="btn" type="button">Clear all completed</button>
+        </section>
+    </main> 
 </body>
 </html>
