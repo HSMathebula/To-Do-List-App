@@ -6,19 +6,20 @@
   "scripts": {
     "build": "webpack",
     "dev": "webpack serve",
-    "server": "node server.js"
+    "server": "node server.js",
+    "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HSMathebula/To-Do-List-App.git"
+    "url": "git+https://github.com/HSMathebula/To-Do-List-App"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "homepage": "https://HSMathebula.github.io/To-Do-List-App",
   "bugs": {
     "url": "https://github.com/HSMathebula/To-Do-List-App/issues"
   },
-  "homepage": "https://github.com/HSMathebula/To-Do-List-App#readme",
   "devDependencies": {
     "@babel/core": "^7.17.10",
     "@babel/preset-env": "^7.17.10",
@@ -238,6 +239,7 @@
     "get-symbol-description": "^1.0.0",
     "get-uri": "^3.0.2",
     "getpass": "^0.1.7",
+    "gh-pages": "^4.0.0",
     "glob": "^8.0.1",
     "glob-parent": "^5.1.2",
     "global-dirs": "^3.0.0",
