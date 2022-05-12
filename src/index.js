@@ -29,7 +29,7 @@ const displayTask = (todos) => {
   }
 };
 
-const addTask = () => {
+export const addTask = () => {
   if (MOOD === 'CREATE') {
     const task = new Task(userTask);
     todos.push(task);
