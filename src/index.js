@@ -20,12 +20,8 @@ const displayTask = (todos) => {
     taskSection.innerHTML += `
   <div class="one-task" id=${i}>
     <div class="data">
-      <input id=${i} class="checkBoxClass" type="checkbox" ${
-  todos[i].status ? 'checked' : ''
-}>
-      <p id=${i} class="${todos[i].status ? 'checked' : ''} description">${
-  todos[i].task
-}</p>
+      <input id=${i} class="checkBoxClass" type="checkbox" ${todos[i].status ? 'checked' : ''}>
+      <p id=${i} class="${todos[i].status ? 'checked' : ''} description">${todos[i].task}</p>
     </div>
     <span class="span">&cross;</span>
   </div>
