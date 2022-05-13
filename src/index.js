@@ -1,4 +1,6 @@
 import './styles/style.css';
+// const style = require('../styles/style.css');
+
 import change from './change.js' //eslint-disable-line
 export const taskSection = document.querySelector('.tasks');
 const userTask = document.querySelector('.user-task');
@@ -6,7 +8,7 @@ const clearAllCompleted = document.querySelector('.clearAll');
 export let todos = JSON.parse(localStorage.getItem('task')) || [];//eslint-disable-line
 let MOOD = 'CREATE';
 let tmp;
-class Task {
+export class Task {
   constructor(userTask) {
     this.id = todos.length + 1;
     this.task = userTask.value;
@@ -14,7 +16,7 @@ class Task {
   }
 }
 
-const displayTask = (todos) => {
+export const displayTask = (todos) => {
   taskSection.innerHTML = '';
   for (let i = 0; i < todos.length; i += 1) {
     taskSection.innerHTML += `
@@ -46,15 +48,8 @@ export const addTask = () => {
   }
 };
 
-userTask.addEventListener('keyup', (e) => {
-  if (e.keyCode === 13 && userTask.value !== '') {
-    e.preventDefault();
-    addTask();
-  }
-});
-
 displayTask(todos);
-const updateIndex = () => {
+export const updateIndex = () => {
   for (let i = 0; i < todos.length; i += 1) {
     todos[i].id = i + 1;
   }
@@ -69,26 +64,45 @@ const updateIndex = () => {
   });
 };
 
-taskSection.addEventListener('click', (e) => {
-  if (e.target.classList.contains('span')) {
-    todos.splice(e.target.parentElement.id, 1);
+change();
+export const clearAll = () => {
+  clearAllCompleted.addEventListener('click', () => {
+    todos = todos.filter((task) => task.status === false);
     displayTask(todos);
     updateIndex();
     localStorage.setItem('task', JSON.stringify(todos));
-  }
+  });
+}
 
-  if (e.target.classList.contains('description')) {
-    userTask.focus();
-    userTask.value = e.target.innerHTML;
-    MOOD = 'UPDATE';
-    tmp = e.target.id;
-  }
-});
+clearAll();
 
-change();
-clearAllCompleted.addEventListener('click', () => {
-  todos = todos.filter((task) => task.status === false);
-  displayTask(todos);
-  updateIndex();
-  localStorage.setItem('task', JSON.stringify(todos));
-});
+export const deleteItem = () => {
+  taskSection.addEventListener('click', (e) => {
+    if (e.target.classList.contains('span')) {
+      todos.splice(e.target.parentElement.id, 1);
+      displayTask(todos);
+      updateIndex();
+      localStorage.setItem('task', JSON.stringify(todos));
+    }
+  
+    if (e.target.classList.contains('description')) {
+      userTask.focus();
+      userTask.value = e.target.innerHTML;
+      MOOD = 'UPDATE';
+      tmp = e.target.id;
+    }
+  }); 
+} 
+
+deleteItem();
+
+export const enter = () => {
+  userTask.addEventListener('keyup', (e) => {
+    if (e.keyCode === 13 && userTask.value !== '') {
+      e.preventDefault();
+      addTask();
+    }
+  });
+}
+
+enter();

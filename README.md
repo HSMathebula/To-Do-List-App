@@ -4,6 +4,8 @@
 
 > Frontend environment for building JavaScript applications. in this project i built a To-Do List App
 
+<img src="./Screenshot_6.png" align='center'>
+</img>
 
 ## Built With
 
