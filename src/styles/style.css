@@ -1,4 +1,4 @@
-*,
+/* *,
 *::before,
 *::after {
   margin: 0;
@@ -115,4 +115,4 @@ footer {
 .checked {
   text-decoration: line-through;
   color: gray;
-}
+} */
